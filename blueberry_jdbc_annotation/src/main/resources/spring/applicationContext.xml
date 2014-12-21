@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+               http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+    <context:component-scan base-package="org.fruit.blueberry"/>
+
+    <context:annotation-config/>
+
+    <!-- property file configuration ================================================================ -->
+    <context:property-placeholder location="classpath:properties/jdbc.properties"/>
+
+    <!-- data source and transaction configuration begin ================================================= -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <!-- 连接池启动时的初始值   -->
+        <property name="initialSize" value="1"/>
+        <!-- 连接池的最大值  -->
+        <property name="maxActive" value="500"/>
+        <!-- 最大空闲值，当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接释放，一直减少到msxIdle为止  -->
+        <property name="maxIdle" value="2"/>
+        <!-- 最小空闲值，当空闲的连接数小于阀值时，连接池就会预申请一些连接，以免洪峰到来时来不及申请  -->
+        <property name="minIdle" value="1"/>
+        <property name="maxWait" value="100" />
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 配置事务管理器 -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 采用@Transactional注解方式使用事务  -->
+    <tx:annotation-driven transaction-manager="txManager"/>
+    <!-- data source and transaction configuration end ================================================ -->
+
+</beans>

@@ -1,0 +1,40 @@
+#login {
+    background: url("../images/login.jpg") no-repeat;
+    width: 747px;
+    height: 299px;
+    margin-top: 150px;
+    margin-left: 30px;
+}
+
+#form {
+    position: relative;
+    top: 130px;
+    left: 150px;
+    color: white;
+}
+
+#input div {
+    margin-bottom: 5px;
+}
+
+#input div input {
+    width: 100px;
+    height: 15px;
+    background-color: #292929;
+    border: 0;
+    color: #6cd0ff;
+}
+
+#btn {
+    margin-left: 25px;
+    margin-top: 8px;
+}
+
+#btn input {
+    background-color: #292929;
+    border: 0;
+    color: #6cd0ff;
+    width: 59px;
+    height: 18px;
+    margin-left: 2px;
+}
